@@ -20,7 +20,12 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'antd', 'recharts'],
+      external: [
+        'react',
+        'react-dom',
+        'antd',
+        'recharts',
+      ],
       output: {
         globals: {
           react: 'React',

@@ -1,33 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react'
+import { Calendar, type CalendarEvent } from './Calendar'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [events, setEvents] = useState<CalendarEvent[]>([
+    {
+      id: 'e1',
+      title: '任务 1',
+      start: new Date(),
+      end: new Date(Date.now() + 2 * 60 * 60 * 1000),
+      resourceId: 'r1',
+      color: '#1677ff',
+    },
+    {
+      id: 'e2',
+      title: '任务 2',
+      start: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      end: new Date(Date.now() + 26 * 60 * 60 * 1000),
+      resourceId: 'r2',
+      color: '#fa8c16',
+    },
+    {
+      id: 'e3',
+      title: '任务 3',
+      start: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+      end: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      resourceId: 'r1',
+      color: '#52c41a',
+    },
+  ])
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div style={{ padding: 16 }}>
+        <Calendar
+          height={700}
+          resources={[
+            { id: 'r1', title: '资源 A' },
+            { id: 'r2', title: '资源 B' },
+            { id: 'r3', title: '资源 C' },
+          ]}
+          events={events}
+          onEventChange={(updated) => {
+            if (!updated.id) return
+            setEvents((prev: CalendarEvent[]) =>
+              prev.map((e: CalendarEvent) => (e.id === updated.id ? { ...e, ...updated } : e)),
+            )
+          }}
+        />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
